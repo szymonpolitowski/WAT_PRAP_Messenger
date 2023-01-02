@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "app_user_status.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,5 +19,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    UserStatus *userStatus;
+
+
+private slots:
+    void statusBoxChanged(int index);
+
 };
 #endif // MAINWINDOW_H
