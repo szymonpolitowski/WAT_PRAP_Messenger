@@ -12,12 +12,14 @@ CONFIG += c++11
 SOURCES += \
     app_user_status.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    user.cpp
 
 HEADERS += \
     messenger_declarations.h \
     app_user_status.h \
-    mainwindow.h
+    mainwindow.h \
+    user.h
 
 
 FORMS += \

@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 #include "app_user_status.h"
+#include "user.h"
+#include "messenger_declarations.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,11 +22,17 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    UserStatus *userStatus;
+    User *sender;
+    User *receiver;
+
+//    UserStatus *userStatus;
 
 
 private slots:
     void statusBoxChanged(int index);
 
+//    void setReceiverStatus(UserStatus_e status);
+
+    void on_pushButton_setReceiver_clicked();
 };
 #endif // MAINWINDOW_H

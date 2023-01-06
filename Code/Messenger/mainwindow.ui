@@ -137,12 +137,12 @@
      <rect>
       <x>600</x>
       <y>270</y>
-      <width>58</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>...</string>
+     <string>BRAK</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_setReceiver">
@@ -189,7 +189,7 @@
      <rect>
       <x>600</x>
       <y>340</y>
-      <width>141</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
