@@ -55,8 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
-//    delete userStatus;
-
     delete sender;
     delete receiver;
 
@@ -101,7 +99,14 @@ void MainWindow::on_pushButton_sendMessage_clicked()
     QString textMessage;
     textMessage = ui->lineEdit_message->text();
 
-    if(textMessage.length() == 0)
+    QString receiverAddr = receiver->GetAddress();
+    if(receiverAddr.isEmpty())
+    {
+        std::cout << "Nieprawidlowy adres odbiorcy, nie wysylam!" << std::endl;
+        return;
+    }
+
+    if(textMessage.isEmpty())
     {
         std::cout << "Pusta wiadomosc, nie wysylam!" << std::endl;
         return;
@@ -117,6 +122,14 @@ void MainWindow::on_pushButton_sendImage_clicked()
 {
     int image = 0;
     image = ui->comboBox_imageBox->currentIndex();
+
+    QString receiverAddr = receiver->GetAddress();
+    if(receiverAddr.isEmpty())
+    {
+        std::cout << "Nieprawidlowy adres odbiorcy, nie wysylam!" << std::endl;
+        return;
+    }
+
 
     std::cout << "Wysylam wiadomosc o nr obrazka: " << image << std::endl;
 
