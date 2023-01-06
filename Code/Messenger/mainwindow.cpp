@@ -6,9 +6,12 @@
 #include <QTimer>
 
 #define STATUS_INTERVAL_MS         1000
+#define IMAGE_NAME_SIZE            4
 
 const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
+const char *image_name[IMAGE_NAME_SIZE] = {"0. ", "1. ", "2. ", "3. "};
 
+// TODO: dodaj okienko wyswietlajace wiadomosci przychodzace (obrazek i teskt)
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,7 +39,16 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(senderStatusBoxChanged(int)));
 /* KONIEC Konfiguracja Status Box uzytkownika */
 
+/* Konfiguracja Image Box uzytkownika */
+    if(ui->comboBox_imageBox)
+    {
+        for(int i = 0; i < IMAGE_NAME_SIZE; i++) {
+            ui->comboBox_imageBox->addItem(image_name[i]);
+        }
+    }
+/* KONIEC Konfiguracja Image Box uzytkownika */
 
+    // Konfiguracja wysylania interwalowego STATUSU UZYTKOWNIKA
     QTimer::singleShot(STATUS_INTERVAL_MS, this, SLOT(sendUserStatus()));
 }
 
@@ -82,3 +94,31 @@ void MainWindow::sendUserStatus(void) {
 
     QTimer::singleShot(STATUS_INTERVAL_MS, this, SLOT(sendUserStatus()));
 }
+
+void MainWindow::on_pushButton_sendMessage_clicked()
+{
+
+    QString textMessage;
+    textMessage = ui->lineEdit_message->text();
+
+    if(textMessage.length() == 0)
+    {
+        std::cout << "Pusta wiadomosc, nie wysylam!" << std::endl;
+        return;
+    }
+
+    // TODO: dodaj wysylanie wiadomosci tekstowej zawartej w textMessage
+
+    std::cout << "Wysylam wiadomosc o tresci: " << textMessage.toStdString() << std::endl;
+}
+
+
+void MainWindow::on_pushButton_sendImage_clicked()
+{
+    int image = 0;
+    image = ui->comboBox_imageBox->currentIndex();
+
+    std::cout << "Wysylam wiadomosc o nr obrazka: " << image << std::endl;
+
+}
+

@@ -33,5 +33,7 @@ private slots:
 //    void setReceiverStatus(UserStatus_e status);
 
     void on_pushButton_setReceiver_clicked();
+    void on_pushButton_sendMessage_clicked();
+    void on_pushButton_sendImage_clicked();
 };
 #endif // MAINWINDOW_H
