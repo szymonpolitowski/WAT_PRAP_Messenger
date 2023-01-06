@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-#include "app_user_status.h"
 #include "user.h"
 #include "messenger_declarations.h"
 
@@ -24,8 +23,6 @@ private:
 
     User *sender;
     User *receiver;
-
-//    UserStatus *userStatus;
 
 
 private slots:
