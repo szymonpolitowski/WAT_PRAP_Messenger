@@ -28,6 +28,8 @@ private:
 private slots:
     void senderStatusBoxChanged(int status);
 
+    void sendUserStatus(void);
+
 //    void setReceiverStatus(UserStatus_e status);
 
     void on_pushButton_setReceiver_clicked();

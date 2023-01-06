@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+#include <QTimer>
+
+#define STATUS_INTERVAL_MS         1000
+
 const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
 
 
@@ -33,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 /* KONIEC Konfiguracja Status Box uzytkownika */
 
 
+    QTimer::singleShot(STATUS_INTERVAL_MS, this, SLOT(sendUserStatus()));
 }
 
 MainWindow::~MainWindow()
@@ -68,3 +73,12 @@ void MainWindow::on_pushButton_setReceiver_clicked()
     std::cout << "Set Receiver address to: " << address.toStdString() << std::endl;
 }
 
+void MainWindow::sendUserStatus(void) {
+
+    // TODO: dodaj wysylanie statusu uzytkownika
+
+    std::cout << "Sending User Status to Receiver: " << status_name[(int)sender->GetStatus()] << std::endl;
+
+
+    QTimer::singleShot(STATUS_INTERVAL_MS, this, SLOT(sendUserStatus()));
+}
