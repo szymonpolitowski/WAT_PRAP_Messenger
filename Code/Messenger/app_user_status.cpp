@@ -20,7 +20,7 @@ UserStatus::UserStatus(QComboBox *ptrStatusBox)
 
     //set up User Status Box
     for(int i = 0; i < statusMaxIndex; i++) {
-        statusBox->addItem(this->status_name[i]);
+//        statusBox->addItem(this->status_name[i]);
     }
 }
 
@@ -31,6 +31,6 @@ UserStatus_e UserStatus::GetStatus() {
 void UserStatus::Update(int new_status) {
     Q_ASSERT(new_status >= 0 && (new_status < statusMaxIndex));
     this->status = (UserStatus_e)new_status;
-    std::cout << "USER STATUS: new status: " << new_status << " = " << this->status_name[new_status] << std::endl;
+//    std::cout << "USER STATUS: new status: " << new_status << " = " << this->status_name[new_status] << std::endl;
 }
 

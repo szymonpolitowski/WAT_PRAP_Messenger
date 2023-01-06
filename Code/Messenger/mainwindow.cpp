@@ -3,13 +3,14 @@
 
 #include <iostream>
 
+const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-//    userStatus = new UserStatus(ui->comboBox_userStatusBox);
 
     // Ustaw dane nadawcy
     sender = new User();
@@ -19,11 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
     receiver = new User();
     sender->SetStatus(statusInactive);
 
-
-
+/* Konfiguracja Status Box uzytkownika */
+    if(ui->comboBox_userStatusBox)
+    {
+        for(int i = 0; i < statusMaxIndex; i++) {
+            ui->comboBox_userStatusBox->addItem(status_name[i]);
+        }
+    }
 
     connect(ui->comboBox_userStatusBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(statusBoxChanged(int)));
+            this, SLOT(senderStatusBoxChanged(int)));
+/* KONIEC Konfiguracja Status Box uzytkownika */
+
 
 }
 
@@ -38,9 +46,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::statusBoxChanged(int index) {
-//    Q_ASSERT(userStatus);
-//    userStatus->Update(index);
+void MainWindow::senderStatusBoxChanged(int status) {
+
+    Q_ASSERT(status >= 0 && (status < statusMaxIndex));
+
+    sender->SetStatus((UserStatus_e)status);
+
+    std::cout << "USER STATUS: new status: " << status << " = " << status_name[status] << std::endl;
 }
 
 void MainWindow::on_pushButton_setReceiver_clicked()

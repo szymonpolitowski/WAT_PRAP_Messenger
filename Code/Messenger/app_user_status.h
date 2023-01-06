@@ -8,7 +8,7 @@ class UserStatus
 private:
     UserStatus_e status;
     QComboBox *statusBox;
-    const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
+//    const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
 
 public:
     UserStatus();

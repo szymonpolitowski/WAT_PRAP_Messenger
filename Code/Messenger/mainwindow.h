@@ -29,7 +29,7 @@ private:
 
 
 private slots:
-    void statusBoxChanged(int index);
+    void senderStatusBoxChanged(int status);
 
 //    void setReceiverStatus(UserStatus_e status);
 
