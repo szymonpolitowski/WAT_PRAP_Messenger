@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QUdpSocket>
 #include "user.h"
 #include "messenger_declarations.h"
 
@@ -24,8 +24,11 @@ private:
     User *sender;
     User *receiver;
 
+    QUdpSocket *udpSocket;
 
 private slots:
+    void processPendingDatagrams(void);
+
     void senderStatusBoxChanged(int status);
 
     void sendUserStatus(void);

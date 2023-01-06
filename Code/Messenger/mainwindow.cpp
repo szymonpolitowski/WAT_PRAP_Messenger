@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QDateTime>
 
+
 #define STATUS_INTERVAL_MS         1000
 #define IMAGE_NAME_SIZE            4
 
@@ -29,6 +30,13 @@ MainWindow::MainWindow(QWidget *parent)
     // Ustaw dane odbiorcy
     receiver = new User();
     sender->SetStatus(statusInactive);
+
+    udpSocket = new QUdpSocket(this);
+
+    udpSocket->bind(QHostAddress::AnyIPv4,
+                    7765,
+                    QUdpSocket::ShareAddress);
+
 
 /* Konfiguracja Status Box uzytkownika */
     if(ui->comboBox_userStatusBox)
@@ -58,11 +66,19 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+    delete udpSocket;
+
     delete sender;
     delete receiver;
 
     delete ui;
 }
+
+void MainWindow::processPendingDatagrams(void)
+{
+    std::cout << "Cos odebralem CHYBA" << std::endl;
+}
+
 
 void MainWindow::senderStatusBoxChanged(int status) {
 
@@ -154,9 +170,30 @@ void MainWindow::on_pushButton_sendMessage_clicked()
 
 
     // TODO: dodaj wysylanie wiadomosci tekstowej zawartej w textMessage
+    QHostAddress host;
+    host.setAddress(receiver->GetAddress());
 
+
+    qint64 sizeDatagram = 0;
+
+    if(udpSocket)
+    {
+        sizeDatagram = udpSocket->writeDatagram((char *)&output,
+                                                sizeof(PacketMsgText_s),
+                                                host,
+                                                7555);
+    }
+
+    if(sizeDatagram == sizeof(PacketMsgText_s))
+    {
+        std::cout << "Wyslano poprawnie!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Blad wysylania!" << std::endl;
+    }
     std::cout << "Wysylam wiadomosc o tresci: " << textMessage.toStdString() << std::endl;
-    std::cout << "Wysylam wiadomosc o tresci out:  " << output.msg.msg << std::endl;
+//    std::cout << "Wysylam wiadomosc o tresci out:  " << output.msg.msg << std::endl;
 }
 
 
