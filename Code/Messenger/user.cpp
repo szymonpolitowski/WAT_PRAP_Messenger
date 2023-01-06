@@ -28,5 +28,21 @@ void User::SetAddress(QString address)
     m_address = address;
 }
 
+bool User::isNotInactive(void)
+{
+    if(m_status != statusInactive)
+    {
+        return true;
+    }
+    return false;
+}
 
+bool User::isInactive(void)
+{
+    if(m_status == statusInactive)
+    {
+        return true;
+    }
+    return false;
+}
 

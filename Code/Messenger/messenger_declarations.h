@@ -68,13 +68,13 @@ typedef struct
 {
     MsgHeader_s header;
     MsgPicture_s image;
-} __attribute__((packed)) PacketImgText_s;
+} __attribute__((packed)) PacketMsgImg_s;
 
 typedef struct
 {
     MsgHeader_s header;
     MsgStatus_s status;
-} __attribute__((packed)) PacketStatusText_s;
+} __attribute__((packed)) PacketMsgStatus_s;
 
 
 #endif // MESSENGER_DECLARATIONS_H

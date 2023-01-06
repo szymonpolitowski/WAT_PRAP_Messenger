@@ -4,9 +4,12 @@
 #include <iostream>
 
 #include <QTimer>
+#include <QDateTime>
 
 #define STATUS_INTERVAL_MS         1000
 #define IMAGE_NAME_SIZE            4
+
+bool IsSingleShotQtimerActive       = false;
 
 const char *status_name[statusMaxIndex] = {"Nieaktywny", "Aktywny", "Nie przeszkadzac"};
 const char *image_name[IMAGE_NAME_SIZE] = {"0. ", "1. ", "2. ", "3. "};
@@ -85,16 +88,33 @@ void MainWindow::on_pushButton_setReceiver_clicked()
 
 void MainWindow::sendUserStatus(void) {
 
-    // TODO: dodaj wysylanie statusu uzytkownika
+    PacketMsgStatus_s output;
+    memset(&output, 0, sizeof(PacketMsgStatus_s));
+
+    output.header.msgType       = msgType_Status;
+    output.header.addressRx     = 1;
+    output.header.addressTx     = 1;
+    output.header.timeUTC       = QDateTime::currentSecsSinceEpoch();
+    output.header.packetSize    = sizeof(PacketMsgStatus_s);
+    output.header.reserved      = 0;
+
+    output.status.status        = sender->GetStatus();
 
     std::cout << "Sending User Status to Receiver: " << status_name[(int)sender->GetStatus()] << std::endl;
 
+    // TODO: dodaj wysylanie statusu uzytkownika
 
     QTimer::singleShot(STATUS_INTERVAL_MS, this, SLOT(sendUserStatus()));
 }
 
 void MainWindow::on_pushButton_sendMessage_clicked()
 {
+
+    if(sender->isInactive())
+    {
+        std::cout << "Not sending text message. STATUS INACTIVE!"<< std::endl;
+        return;
+    }
 
     QString textMessage;
     textMessage = ui->lineEdit_message->text();
@@ -112,14 +132,42 @@ void MainWindow::on_pushButton_sendMessage_clicked()
         return;
     }
 
+    PacketMsgText_s output;
+    memset(&output, 0, sizeof(PacketMsgText_s));
+
+    output.header.msgType       = msgType_Text;
+    output.header.addressRx     = 1;
+    output.header.addressTx     = 1;
+    output.header.timeUTC       = QDateTime::currentSecsSinceEpoch();
+    output.header.packetSize    = sizeof(PacketMsgText_s);
+    output.header.reserved      = 0;
+
+    int len = (textMessage.length() < c_MaxTextMsgLen) ? textMessage.length() : c_MaxTextMsgLen;
+
+    output.msg.len = len;
+
+
+    for(int i = 0; i < len; i++)
+    {
+        output.msg.msg[i] = static_cast<char>(textMessage.toLatin1().at(i));
+    }
+
+
     // TODO: dodaj wysylanie wiadomosci tekstowej zawartej w textMessage
 
     std::cout << "Wysylam wiadomosc o tresci: " << textMessage.toStdString() << std::endl;
+    std::cout << "Wysylam wiadomosc o tresci out:  " << output.msg.msg << std::endl;
 }
 
 
 void MainWindow::on_pushButton_sendImage_clicked()
 {
+    if(sender->isInactive())
+    {
+        std::cout << "Not sending image message. STATUS INACTIVE!"<< std::endl;
+        return;
+    }
+
     int image = 0;
     image = ui->comboBox_imageBox->currentIndex();
 
@@ -130,6 +178,17 @@ void MainWindow::on_pushButton_sendImage_clicked()
         return;
     }
 
+    PacketMsgImg_s output;
+    memset(&output, 0, sizeof(PacketMsgImg_s));
+
+    output.header.msgType       = msgType_Picture;
+    output.header.addressRx     = 1;
+    output.header.addressTx     = 1;
+    output.header.timeUTC       = QDateTime::currentSecsSinceEpoch();
+    output.header.packetSize    = sizeof(PacketMsgImg_s);
+    output.header.reserved      = 0;
+
+    output.image.picture        = image;
 
     std::cout << "Wysylam wiadomosc o nr obrazka: " << image << std::endl;
 

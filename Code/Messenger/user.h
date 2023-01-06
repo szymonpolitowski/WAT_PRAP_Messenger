@@ -21,6 +21,9 @@ public:
 
     QString GetAddress(void);
     void SetAddress(QString address);
+
+    bool isNotInactive(void);
+    bool isInactive(void);
 };
 
 #endif // USER_H
